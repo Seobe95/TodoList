@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		552F69A62B02769200C9CD07 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 552F69A52B02769200C9CD07 /* sample.json */; };
+		552F69A82B02778100C9CD07 /* TodoListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552F69A72B02778000C9CD07 /* TodoListModel.swift */; };
+		552F69AA2B0277D200C9CD07 /* TodoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552F69A92B0277D200C9CD07 /* TodoListViewModel.swift */; };
+		552F69AC2B027FA700C9CD07 /* DetailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552F69AB2B027FA700C9CD07 /* DetailTodoView.swift */; };
 		559252012B0272BB005F7F75 /* TodoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559252002B0272BB005F7F75 /* TodoListApp.swift */; };
 		559252032B0272BB005F7F75 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559252022B0272BB005F7F75 /* ContentView.swift */; };
 		559252052B0272BD005F7F75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 559252042B0272BD005F7F75 /* Assets.xcassets */; };
@@ -14,6 +18,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		552F69A52B02769200C9CD07 /* sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
+		552F69A72B02778000C9CD07 /* TodoListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListModel.swift; sourceTree = "<group>"; };
+		552F69A92B0277D200C9CD07 /* TodoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewModel.swift; sourceTree = "<group>"; };
+		552F69AB2B027FA700C9CD07 /* DetailTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTodoView.swift; sourceTree = "<group>"; };
 		559251FD2B0272BB005F7F75 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		559252002B0272BB005F7F75 /* TodoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListApp.swift; sourceTree = "<group>"; };
 		559252022B0272BB005F7F75 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +40,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		552F69A22B02754E00C9CD07 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				552F69A52B02769200C9CD07 /* sample.json */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
 		559251F42B0272BA005F7F75 = {
 			isa = PBXGroup;
 			children = (
@@ -51,8 +67,12 @@
 		559251FF2B0272BB005F7F75 /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
+				552F69A22B02754E00C9CD07 /* assets */,
 				559252002B0272BB005F7F75 /* TodoListApp.swift */,
 				559252022B0272BB005F7F75 /* ContentView.swift */,
+				552F69AB2B027FA700C9CD07 /* DetailTodoView.swift */,
+				552F69A72B02778000C9CD07 /* TodoListModel.swift */,
+				552F69A92B0277D200C9CD07 /* TodoListViewModel.swift */,
 				559252042B0272BD005F7F75 /* Assets.xcassets */,
 				559252062B0272BD005F7F75 /* Preview Content */,
 			);
@@ -127,6 +147,7 @@
 			files = (
 				559252082B0272BD005F7F75 /* Preview Assets.xcassets in Resources */,
 				559252052B0272BD005F7F75 /* Assets.xcassets in Resources */,
+				552F69A62B02769200C9CD07 /* sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,8 +158,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				552F69AC2B027FA700C9CD07 /* DetailTodoView.swift in Sources */,
+				552F69AA2B0277D200C9CD07 /* TodoListViewModel.swift in Sources */,
 				559252032B0272BB005F7F75 /* ContentView.swift in Sources */,
 				559252012B0272BB005F7F75 /* TodoListApp.swift in Sources */,
+				552F69A82B02778100C9CD07 /* TodoListModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
