@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailTodoView: View {
-    @State var todoItem: TodoListModel
+    @Binding var todoItem: TodoListModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -21,8 +21,13 @@ struct DetailTodoView: View {
             Section("상세 내용") {
                 Text(todoItem.description)
             }.padding(.top, 16)
+            
         }.padding()
+            .onAppear {
+                print(todoItem)
+            }
     }
+    
 }
 
 //#Preview {

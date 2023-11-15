@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TodoListModel: Codable, Identifiable {
+struct TodoListModel: Codable, Identifiable, Hashable {
     var id: Int
     var title: String
     var description: String

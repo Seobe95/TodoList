@@ -15,31 +15,28 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                SectionListView(sectionLabel: "COMPLETED", list: todolist.getCompletedList())
-                SectionListView(sectionLabel: "To do", list: todolist.getUncompletedList())
-            }
-        }
-    }
-}
-
-#Preview {
-    ContentView()
-}
-
-struct SectionListView: View {
-    var sectionLabel: String
-    var list: [TodoListModel]
-    
-    var body: some View {
-        Section(sectionLabel) {
-            ForEach(list) { list in
-                NavigationLink(destination: DetailTodoView(todoItem: list)){
-                    HStack {
-                        Text(list.title)
-                            .font(.title3)
+                Section("TODOLIST") {
+                    ForEach($todolist.list , id: \.self) { todoItem in
+                        NavigationLink {
+                            DetailTodoView(todoItem: todoItem)
+                        } label: {
+                            HStack {
+                                if todoItem.completed.wrappedValue {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.blue)
+                                }
+                                Text(todoItem.title.wrappedValue)
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+
+
+#Preview {
+    ContentView()
+}
+
