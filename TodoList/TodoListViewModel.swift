@@ -10,18 +10,9 @@ import Combine
 
 class TodoList: ObservableObject {
     @Published var list: [TodoListModel]
-    @Published var todo: [TodoListModel] = []
-    @Published var completed: [TodoListModel] = []
     
     init(list: [TodoListModel] = []) {
         self.list = list
-        self.todo = list.filter { !$0.completed }
-        self.completed = list.filter { $0.completed }
-    }
-    
-    func refresh() {
-        todo = list.filter { !$0.completed }
-        completed = list.filter { $0.completed }
     }
 }
 
