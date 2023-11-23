@@ -8,28 +8,34 @@
 import SwiftUI
 
 struct DetailTodoView: View {
-    @Binding var todoItem: TodoListModel
+    @Binding var list: [TodoListModel]
+    var todoItem: TodoListModel
     
     var body: some View {
         VStack(alignment: .leading) {
-            Section("할일") {
-                Toggle(isOn: $todoItem.completed, label: {
-                    Text(todoItem.title)
-                })
-            }
+            Text(todoItem.title)
+                .font(.title)
+                .padding(.bottom, 16)
+                .padding(.horizontal, 16)
+                .frame(maxWidth: .infinity, alignment: .leading)
             
-            Section("상세 내용") {
-                Text(todoItem.description)
-            }.padding(.top, 16)
+            Text(todoItem.description)
+                .font(.body)
+                .padding(.horizontal, 16)
             
-        }.padding()
-            .onAppear {
-                print(todoItem)
+            Spacer()
+            
+        }
+        .padding(.top, 16)
+        .navigationTitle("상세보기")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            Button {
+                let index = list.firstIndex { $0.id == todoItem.id }!
+                list[index].completed.toggle()
+            } label: {
+                Text(todoItem.completed ? "완료 취소" : "완료")
             }
+        }
     }
-    
 }
-
-//#Preview {
-////    DetailTodoView()
-//}
