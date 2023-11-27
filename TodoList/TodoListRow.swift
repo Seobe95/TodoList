@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct TodoListCell: View {
-    @ObservedObject var todolist: TodoList
-    var todoItem: TodoListModel
+struct TodoListRow: View {
+    @ObservedObject var todolist: TodoManager
+    var todoItem: TodoItemModel
     
     var body: some View {
         NavigationLink {
@@ -21,8 +21,11 @@ struct TodoListCell: View {
                     .padding(.trailing, 16)
                     .font(.system(size: 24))
                     .onTapGesture {
-                        let index = todolist.list.firstIndex(where: { $0.id == todoItem.id})!
-                        todolist.list[index].completed.toggle()
+                        if var item = $todolist.list.first(where: { $0.id == todoItem.id }) {
+                            item.completed.wrappedValue.toggle()
+                        } else {
+                            print("Completed Change Error")
+                        }
                     }
                 
                 Text(todoItem.title)
@@ -39,8 +42,11 @@ struct TodoListCell: View {
         }
     }
     
-    func removeTodoItem(_ target: TodoListModel) {
-        let index = todolist.list.firstIndex { $0.id == target.id }!
-        todolist.list.remove(at: index)
+    func removeTodoItem(_ target: TodoItemModel) {
+        if let index = todolist.list.firstIndex ( where: { $0.id == target.id } ) {
+            todolist.list.remove(at: index)
+        } else {
+            print("REMOVE ERROR")
+        }
     }
 }

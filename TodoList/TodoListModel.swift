@@ -8,17 +8,17 @@
 import Foundation
 import Combine
 
-struct TodoListModel: Codable, Identifiable {
+struct TodoItemModel: Codable, Identifiable {
     var id: Int
     var title: String
     var description: String
     var completed: Bool
 }
 
-class TodoList: ObservableObject {
-    @Published var list: [TodoListModel]
+class TodoManager: ObservableObject {
+    @Published var list: [TodoItemModel]
     
-    init(list: [TodoListModel] = []) {
+    init(list: [TodoItemModel] = []) {
         self.list = list
     }
     
@@ -36,7 +36,7 @@ class TodoList: ObservableObject {
         }
         
         do {
-            self.list = try JSONDecoder().decode([TodoListModel].self, from: data)
+            self.list = try JSONDecoder().decode([TodoItemModel].self, from: data)
         } catch {
             fatalError("Unable to parse \(filename) : \(error)")
         }

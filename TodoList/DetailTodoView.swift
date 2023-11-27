@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct DetailTodoView: View {
-    @Binding var list: [TodoListModel]
-    var todoItem: TodoListModel
+    @Binding var list: [TodoItemModel]
+    var todoItem: TodoItemModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -31,8 +31,11 @@ struct DetailTodoView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             Button {
-                let index = list.firstIndex { $0.id == todoItem.id }!
-                list[index].completed.toggle()
+                if let index = list.firstIndex(where: { $0.id == todoItem.id }) {
+                    list[index].completed.toggle()
+                } else {
+                    print("DetialView: completed change error")
+                }
             } label: {
                 Text(todoItem.completed ? "완료 취소" : "완료")
             }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WriteView: View {
-    @Binding var todolist: [TodoListModel]
+    @Binding var todolist: [TodoItemModel]
     @Binding var path: NavigationPath
     
     @State var title: String = ""
@@ -63,7 +63,7 @@ struct WriteView: View {
             return titleAlert.toggle()
         }
         // 일단은 예제 파일의 id에 맞도록 Int타입으로 설정 -> 추후 변경 예정
-        todolist.append(TodoListModel(id: Int.random(in: 1000...9999), title: title, description: description, completed: false))
+        todolist.append(TodoItemModel(id: Int.random(in: 1000...9999), title: title, description: description, completed: false))
         path.removeLast()
     }
 }
