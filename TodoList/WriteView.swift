@@ -15,6 +15,7 @@ struct WriteView: View {
     @State var description: String = ""
     @State var titleAlert: Bool = false
     @State var descriptionAlert: Bool = false
+    let coreData = CoreDataManager.shared
     
     var body: some View {
         VStack {
@@ -62,8 +63,11 @@ struct WriteView: View {
         if title.isEmpty {
             return titleAlert.toggle()
         }
-        // 일단은 예제 파일의 id에 맞도록 Int타입으로 설정 -> 추후 변경 예정
-        todolist.append(TodoItemModel(id: Int.random(in: 1000...9999), title: title, description: description, completed: false))
+        let id = UUID()
+        
+        coreData.addTodoItem(id: id, title: title, description: description)
+        todolist.append(TodoItemModel(id: id, title: title, description: description, completed: false))
+        
         path.removeLast()
     }
 }

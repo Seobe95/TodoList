@@ -3,22 +3,33 @@ import SwiftUI
 struct TodoListView: View {
     @StateObject var todolist = TodoManager()
     @State private var navigationPath = NavigationPath()
-    let backgroundColor = Color(UIColor.systemGroupedBackground)
+    @FetchRequest(entity: TodoItem.entity(), sortDescriptors: []) var list: FetchedResults<TodoItem>
+    let coreData = CoreDataManager.shared
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            EmptyAndTodoListView(todolist: todolist)
+            EmptyAndTodoListView(todolist: todolist, list: list, coreData: coreData)
                 .navigationDestination(for: String.self) { _ in
                 WriteView(todolist: $todolist.list, path: $navigationPath)
             }
         }.onAppear {
-            todolist.getJsonData("sample.json")
+            var arr: [TodoItemModel] = []
+            if !list.isEmpty {
+                list.forEach {
+                    if let id = $0.id, let title = $0.title, let desc = $0.desc {
+                        arr.append(TodoItemModel(id: id, title: title, description: desc, completed: $0.isCompleted))
+                    }
+                }
+            }
+            todolist.setList(list: arr)
         }
     }
 }
 
 struct EmptyAndTodoListView: View {
     @ObservedObject var todolist: TodoManager
+    var list: FetchedResults<TodoItem>
+    var coreData: CoreDataManager
     
     var body: some View {
         if todolist.list.isEmpty {
@@ -34,8 +45,15 @@ struct EmptyAndTodoListView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(UIColor.systemBackground).ignoresSafeArea())
         } else {
-            List(todolist.list) { todoItem in
-                TodoListRow(todolist: todolist, todoItem: todoItem)
+            List {
+                ForEach (todolist.list) { todoItem in
+                    TodoListRow(todolist: todolist, todoItem: todoItem)
+                }.onDelete{ index in
+                    coreData.removeTodoItem(at: index, list: list)
+                    index.forEach {
+                        todolist.list.remove(at: $0)
+                    }
+                }
             }
             .toolbar {
                 NavigationLink(value: "ADD TODO"){
