@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import CoreData
 
-struct TodoListCell: View {
-    @ObservedObject var todolist: TodoList
-    var todoItem: TodoListModel
+struct TodoListRow: View {
+    @ObservedObject var todolist: TodoManager
+    var todoItem: TodoItemModel
+    let coreData = CoreDataManager.shared
     
     var body: some View {
         NavigationLink {
@@ -21,26 +23,21 @@ struct TodoListCell: View {
                     .padding(.trailing, 16)
                     .font(.system(size: 24))
                     .onTapGesture {
-                        let index = todolist.list.firstIndex(where: { $0.id == todoItem.id})!
-                        todolist.list[index].completed.toggle()
+                        toggleCheckBtn()
                     }
                 
                 Text(todoItem.title)
                     .strikethrough(todoItem.completed)
             }
         }
-        .swipeActions(edge: .trailing) {
-            Button(role: .destructive) {
-                removeTodoItem(todoItem)
-            } label: {
-                Image(systemName: "trash.fill")
-            }
-            
-        }
     }
     
-    func removeTodoItem(_ target: TodoListModel) {
-        let index = todolist.list.firstIndex { $0.id == target.id }!
-        todolist.list.remove(at: index)
+    func toggleCheckBtn() {
+        if let item = $todolist.list.first(where: { $0.id == todoItem.id }) {
+            coreData.setChangeCompleted(id: item.id, isCompleted: item.completed.wrappedValue)
+            item.completed.wrappedValue.toggle()
+        } else {
+            print("Didn't match Item's ID")
+        }
     }
 }
