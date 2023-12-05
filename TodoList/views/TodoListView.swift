@@ -11,6 +11,11 @@ struct TodoListView: View {
             EmptyAndTodoListView(todolist: todolist, list: list, coreData: coreData)
                 .navigationDestination(for: String.self) { _ in
                 WriteView(todolist: $todolist.list, path: $navigationPath)
+            }.toolbar {
+                NavigationLink(value: "ADD TODO"){
+                    Image(systemName: "pencil.and.list.clipboard")
+                        .font(.system(size: 16))
+                }
             }
         }.onAppear {
             var arr: [TodoItemModel] = []
@@ -28,6 +33,7 @@ struct TodoListView: View {
 
 struct EmptyAndTodoListView: View {
     @ObservedObject var todolist: TodoManager
+    @Environment(\.managedObjectContext) private var context
     var list: FetchedResults<TodoItem>
     var coreData: CoreDataManager
     
@@ -35,11 +41,13 @@ struct EmptyAndTodoListView: View {
         if todolist.list.isEmpty {
             VStack {
                 Text("새로운 할 일을 등록해보세요!")
-                    .padding(.bottom, 32)
+                    .padding(.bottom, 16)
+                    .font(.title)
                 
-                NavigationLink(value: "ADD TODO") {
-                    Text("새로운 할 일 추가하기")
-                }
+                Text("오른쪽 상단에 위치한 작성버튼을 눌러보세요!")
+                    .font(.body)
+                    .foregroundStyle(.gray)
+
             }
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -48,25 +56,14 @@ struct EmptyAndTodoListView: View {
             List {
                 ForEach (todolist.list) { todoItem in
                     TodoListRow(todolist: todolist, todoItem: todoItem)
-                }.onDelete{ index in
-                    coreData.removeTodoItem(at: index, list: list)
+                }.onDelete { index in
+                    coreData.removeTodoItem(at: index, list: list, context: context)
                     index.forEach {
                         todolist.list.remove(at: $0)
                     }
                 }
             }
-            .toolbar {
-                NavigationLink(value: "ADD TODO"){
-                    Image(systemName: "pencil.and.list.clipboard")
-                        .font(.system(size: 16))
-                }
-            }
             .navigationTitle("할일")
         }
     }
-}
-
-
-#Preview {
-    TodoListView()
 }

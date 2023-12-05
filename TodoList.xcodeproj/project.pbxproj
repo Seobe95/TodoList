@@ -18,6 +18,7 @@
 		559252032B0272BB005F7F75 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559252022B0272BB005F7F75 /* TodoListView.swift */; };
 		559252052B0272BD005F7F75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 559252042B0272BD005F7F75 /* Assets.xcassets */; };
 		559252082B0272BD005F7F75 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 559252072B0272BD005F7F75 /* Preview Assets.xcassets */; };
+		55B891D92B1E1B98004734E2 /* SelectButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B891D82B1E1B98004734E2 /* SelectButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,9 @@
 		559252022B0272BB005F7F75 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
 		559252042B0272BD005F7F75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		559252072B0272BD005F7F75 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		55B891D82B1E1B98004734E2 /* SelectButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonView.swift; sourceTree = "<group>"; };
+		55B891DA2B1E1F37004734E2 /* TodoList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodoList.entitlements; sourceTree = "<group>"; };
+		55B891DB2B1E2481004734E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,16 +77,16 @@
 		559251FF2B0272BB005F7F75 /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
-				552F69A22B02754E00C9CD07 /* assets */,
 				559252002B0272BB005F7F75 /* TodoListApp.swift */,
-				559252022B0272BB005F7F75 /* TodoListView.swift */,
-				551D28412B0BAE2000874D52 /* TodoListRow.swift */,
-				552F69AB2B027FA700C9CD07 /* DetailTodoView.swift */,
-				5520CA112B0A6154005482C1 /* WriteView.swift */,
+				55B891DB2B1E2481004734E2 /* Info.plist */,
+				55B891DA2B1E1F37004734E2 /* TodoList.entitlements */,
+				55B891DC2B1E2D78004734E2 /* coredata */,
+				55B891D72B1E1B75004734E2 /* elements */,
+				552F69A22B02754E00C9CD07 /* assets */,
+				55B891DD2B1E2D98004734E2 /* views */,
 				552F69A72B02778000C9CD07 /* TodoListModel.swift */,
 				559252042B0272BD005F7F75 /* Assets.xcassets */,
 				559252062B0272BD005F7F75 /* Preview Content */,
-				552D3A9C2B0F971C0037C524 /* CoreDataManager.swift */,
 				552D3A9E2B0F97770037C524 /* TodoListCoreData.xcdatamodeld */,
 			);
 			path = TodoList;
@@ -94,6 +98,33 @@
 				559252072B0272BD005F7F75 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		55B891D72B1E1B75004734E2 /* elements */ = {
+			isa = PBXGroup;
+			children = (
+				551D28412B0BAE2000874D52 /* TodoListRow.swift */,
+				55B891D82B1E1B98004734E2 /* SelectButtonView.swift */,
+			);
+			path = elements;
+			sourceTree = "<group>";
+		};
+		55B891DC2B1E2D78004734E2 /* coredata */ = {
+			isa = PBXGroup;
+			children = (
+				552D3A9C2B0F971C0037C524 /* CoreDataManager.swift */,
+			);
+			path = coredata;
+			sourceTree = "<group>";
+		};
+		55B891DD2B1E2D98004734E2 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				5520CA112B0A6154005482C1 /* WriteView.swift */,
+				552F69AB2B027FA700C9CD07 /* DetailTodoView.swift */,
+				559252022B0272BB005F7F75 /* TodoListView.swift */,
+			);
+			path = views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +206,7 @@
 				559252012B0272BB005F7F75 /* TodoListApp.swift in Sources */,
 				552D3A9D2B0F971C0037C524 /* CoreDataManager.swift in Sources */,
 				552F69A82B02778100C9CD07 /* TodoListModel.swift in Sources */,
+				55B891D92B1E1B98004734E2 /* SelectButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,11 +337,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TodoList/TodoList.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TodoList/Preview Content\"";
+				DEVELOPMENT_TEAM = R3NZM9PKYA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodoList/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -320,7 +355,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ko.co.seobe.TodoList;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.seobe.TodoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -333,11 +368,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TodoList/TodoList.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TodoList/Preview Content\"";
+				DEVELOPMENT_TEAM = R3NZM9PKYA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodoList/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -348,7 +386,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ko.co.seobe.TodoList;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.seobe.TodoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

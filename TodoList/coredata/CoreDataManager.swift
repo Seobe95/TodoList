@@ -18,14 +18,18 @@ import SwiftUI
  }
  */
 
-struct CoreDataManager {
+class CoreDataManager {
     
     static let shared = CoreDataManager()
     
-    let container: NSPersistentContainer
+    let container: NSPersistentCloudKitContainer
     
-    init() {
-        container = NSPersistentContainer(name: "TodoListCoreData")
+    init(inMemory: Bool = false) {
+        container = NSPersistentCloudKitContainer(name: "TodoListCoreData")
+        if inMemory {
+            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        }
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("CoreData Init Error: \(error)")
@@ -45,11 +49,11 @@ struct CoreDataManager {
         }
     }
     
-    func addTodoItem (id: UUID, title: String, description: String) {
-        let context = container.viewContext
+    func addTodoItem (id: UUID, title: String, description: String, context: NSManagedObjectContext) {
         let newTodoItem = TodoItem(context: context)
-        
+    
         newTodoItem.id = id
+        newTodoItem.timestemp = Date()
         newTodoItem.title = title
         newTodoItem.desc = description
         newTodoItem.isCompleted = false
@@ -57,8 +61,7 @@ struct CoreDataManager {
         saveData()
     }
     
-    func setChangeCompleted(id: UUID, isCompleted: Bool) {
-        let context = container.viewContext
+    func setChangeCompleted(id: UUID, isCompleted: Bool, context: NSManagedObjectContext) {
         let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
         request.predicate = NSPredicate(format: "(id = %@)", id as CVarArg)
         
@@ -73,7 +76,7 @@ struct CoreDataManager {
         }
     }
     
-    func editTodoItem(id: UUID, title: String, desc: String) {
+    func editTodoItem(id: UUID, title: String, desc: String, context: NSManagedObjectContext) {
         let context = container.viewContext
         let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
         request.predicate = NSPredicate(format: "(id = %@)", id as CVarArg)
@@ -90,7 +93,7 @@ struct CoreDataManager {
         }
     }
     
-    func removeTodoItem(at offset: IndexSet, list: FetchedResults<TodoItem>) {
+    func removeTodoItem(at offset: IndexSet, list: FetchedResults<TodoItem>, context: NSManagedObjectContext) {
         let context = container.viewContext
         withAnimation {
             offset.forEach {

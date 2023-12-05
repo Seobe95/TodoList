@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DetailTodoView: View {
+    @Environment(\.managedObjectContext) var context
     @Binding var list: [TodoItemModel]
     @State var isEditMode = false
     @State var title: String = ""
@@ -20,26 +21,23 @@ struct DetailTodoView: View {
         VStack(alignment: .leading) {
             if isEditMode {
                 VStack(alignment: .leading) {
-                    Text("할 일")
-                        .font(.title3)
                     TextField(text: $title) {
                         Text("할 일을 적어주세요")
                     }
-                    .font(.body)
+                    .font(.title)
+                    .padding(.bottom, 16)
+                    .padding(.horizontal, 16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding(.bottom, 16)
-                .padding(.horizontal, 16)
-                
+
                 VStack(alignment: .leading) {
-                    Text("상세내용")
-                        .font(.title3)
                     TextField(text: $description, axis: .vertical) {
                         Text("할 일에 대한 내용을 적어주세요")
                     }
                     .font(.body)
+                    .padding(.horizontal, 16)
                     .multilineTextAlignment(.leading)
                 }
-                .padding(.horizontal, 16)
             } else {
                 Text(todoItem.title)
                     .font(.title)
@@ -62,27 +60,8 @@ struct DetailTodoView: View {
                     editTodoItem()
                 }
             } else {
-                Menu {
-                    Button {
-                        toggleCheckBtn()
-                    } label: {
-                        HStack {
-                            Text(todoItem.completed ? "완료 취소" : "완료")
-                            Image(systemName: todoItem.completed ? "checkmark.circle.fill" : "checkmark.circle")
-                        }
-                    }
-                    Button {
-                        isEditMode.toggle()
-                        title = todoItem.title
-                        description = todoItem.description
-                    } label: {
-                        HStack {
-                            Text("수정")
-                            Image(systemName: "pencil")
-                        }
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
+                SelectButtonView(isEditMode: $isEditMode, title: $title, description: $description, todoItem: todoItem) {
+                    toggleCheckBtn()
                 }
             }
         }
@@ -90,7 +69,7 @@ struct DetailTodoView: View {
     
     func toggleCheckBtn() {
         if let item = $list.first(where: { $0.id == todoItem.id }) {
-            coreData.setChangeCompleted(id: item.id, isCompleted: item.completed.wrappedValue)
+            coreData.setChangeCompleted(id: item.id, isCompleted: item.completed.wrappedValue, context: context)
             item.completed.wrappedValue.toggle()
         } else {
             print("Didn't match Item's ID")
@@ -99,7 +78,7 @@ struct DetailTodoView: View {
     
     func editTodoItem() {
         if let item = $list.first(where: { $0.id == todoItem.id }) {
-            coreData.editTodoItem(id: item.id, title: title, desc: description)
+            coreData.editTodoItem(id: item.id, title: title, desc: description, context: context)
             item.title.wrappedValue = title
             item.description.wrappedValue = description
             isEditMode.toggle()

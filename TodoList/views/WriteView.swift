@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WriteView: View {
+    @Environment(\.managedObjectContext) var context
     @Binding var todolist: [TodoItemModel]
     @Binding var path: NavigationPath
     
@@ -65,7 +66,7 @@ struct WriteView: View {
         }
         let id = UUID()
         
-        coreData.addTodoItem(id: id, title: title, description: description)
+        coreData.addTodoItem(id: id, title: title, description: description, context: context)
         todolist.append(TodoItemModel(id: id, title: title, description: description, completed: false))
         
         path.removeLast()

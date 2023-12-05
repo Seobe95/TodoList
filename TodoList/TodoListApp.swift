@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct TodoListApp: App {
     let coreDataManager = CoreDataManager.shared
+    
     var body: some Scene {
         WindowGroup {
             TodoListView()
