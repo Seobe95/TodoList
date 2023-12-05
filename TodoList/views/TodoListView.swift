@@ -3,7 +3,7 @@ import SwiftUI
 struct TodoListView: View {
     @StateObject var todolist = TodoManager()
     @State private var navigationPath = NavigationPath()
-    @FetchRequest(entity: TodoItem.entity(), sortDescriptors: []) var list: FetchedResults<TodoItem>
+    @FetchRequest(entity: TodoItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \TodoItem.timestemp, ascending: false)]) var list: FetchedResults<TodoItem>
     let coreData = CoreDataManager.shared
     
     var body: some View {

@@ -51,7 +51,7 @@ class CoreDataManager {
     
     func addTodoItem (id: UUID, title: String, description: String, context: NSManagedObjectContext) {
         let newTodoItem = TodoItem(context: context)
-    
+        
         newTodoItem.id = id
         newTodoItem.timestemp = Date()
         newTodoItem.title = title
@@ -62,45 +62,43 @@ class CoreDataManager {
     }
     
     func setChangeCompleted(id: UUID, isCompleted: Bool, context: NSManagedObjectContext) {
-        let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
-        request.predicate = NSPredicate(format: "(id = %@)", id as CVarArg)
-        
-        do {
-            let result = try context.fetch(request as! NSFetchRequest<NSFetchRequestResult>)
-            let match = result[0] as! NSManagedObject
+        if let match = getRequestFetch(id: id, context: context) {
             match.setValue(!isCompleted, forKey: "isCompleted")
             saveData()
-            print("complete change save complete")
-        } catch {
-            print("Change Completed Error \(error)")
+            print("save complete")
         }
     }
     
     func editTodoItem(id: UUID, title: String, desc: String, context: NSManagedObjectContext) {
-        let context = container.viewContext
-        let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
-        request.predicate = NSPredicate(format: "(id = %@)", id as CVarArg)
-        
-        do {
-            let result = try context.fetch(request as! NSFetchRequest<NSFetchRequestResult>)
-            let match = result[0] as! NSManagedObject
+        if let match = getRequestFetch(id: id, context: context) {
             match.setValue(title, forKey: "title")
             match.setValue(desc, forKey: "desc")
             saveData()
             print("save complete")
-        } catch {
-            print("Change Completed Error \(error)")
         }
     }
     
     func removeTodoItem(at offset: IndexSet, list: FetchedResults<TodoItem>, context: NSManagedObjectContext) {
-        let context = container.viewContext
         withAnimation {
             offset.forEach {
                 let todo = list[$0]
                 context.delete(todo)
             }
             saveData()
+        }
+    }
+    
+    func getRequestFetch(id: UUID, context: NSManagedObjectContext) -> NSManagedObject? {
+        let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
+        request.predicate = NSPredicate(format: "(id = %@)", id as CVarArg)
+        
+        do {
+            let result = try context.fetch(request as! NSFetchRequest<NSFetchRequestResult>)
+            let match = result[0] as! NSManagedObject
+            return match
+        } catch {
+            print("Fetch Error")
+            return nil
         }
     }
 }
