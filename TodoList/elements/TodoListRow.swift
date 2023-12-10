@@ -10,6 +10,7 @@ import CoreData
 
 struct TodoListRow: View {
     @ObservedObject var todolist: TodoManager
+    @Environment(\.managedObjectContext) var context
     var todoItem: TodoItemModel
     let coreData = CoreDataManager.shared
     
@@ -34,7 +35,7 @@ struct TodoListRow: View {
     
     func toggleCheckBtn() {
         if let item = $todolist.list.first(where: { $0.id == todoItem.id }) {
-            coreData.setChangeCompleted(id: item.id, isCompleted: item.completed.wrappedValue)
+            coreData.setChangeCompleted(id: item.id, isCompleted: item.completed.wrappedValue, context: context)
             item.completed.wrappedValue.toggle()
         } else {
             print("Didn't match Item's ID")

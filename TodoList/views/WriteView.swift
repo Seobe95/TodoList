@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct WriteView: View {
+    @Environment(\.managedObjectContext) var context
     @Binding var todolist: [TodoItemModel]
     @Binding var path: NavigationPath
     
     @State var title: String = ""
     @State var description: String = ""
     @State var titleAlert: Bool = false
-    @State var descriptionAlert: Bool = false
+    
     let coreData = CoreDataManager.shared
     
     var body: some View {
@@ -63,9 +64,9 @@ struct WriteView: View {
         if title.isEmpty {
             return titleAlert.toggle()
         }
-        let id = UUID()
         
-        coreData.addTodoItem(id: id, title: title, description: description)
+        let id = UUID()
+        coreData.addTodoItem(id: id, title: title, description: description, context: context)
         todolist.append(TodoItemModel(id: id, title: title, description: description, completed: false))
         
         path.removeLast()
